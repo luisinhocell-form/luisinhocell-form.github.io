@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Orçamento - LuisinhoCell</title>
+  <link rel="apple-touch-icon" href="logo.jpeg">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 16px; background:#f6f7fb; color:#111; -webkit-font-smoothing:antialiased; }
+    .card { background:#fff; border-radius:8px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.08); max-width:900px; margin:auto;}
+    label{display:block;margin-top:8px;font-weight:600}
+    input, select, textarea {width:100%; padding:8px; margin-top:6px; box-sizing:border-box;}
+    table {width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{border:1px solid #ddd;padding:8px;text-align:left}
+    .row{display:flex;gap:8px}
+    .row > div{flex:1}
+    button{margin-top:12px;padding:10px 14px;border:none;background:#0aa7d6;color:white;border-radius:6px;cursor:pointer}
+    #preview {background:#fff;padding:12px;border-radius:6px;}
+    .logo-preview{height:80px;object-fit:contain}
+    @media (max-width:600px){ .row{flex-direction:column} }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Gerador de Orçamento - LuisinhoCell</h2>
+    <div style="display:flex;gap:12px;align-items:center">
+      <img id="staticLogo" src="logo.jpeg" class="logo-preview">
+      <div>
+        <div style="font-size:20px;font-weight:700">LUISINHO CELL</div>
+        <div>Centro de Reparos • Especializado em Microsoldagem Apple</div>
+        <div style="margin-top:6px">📞 (67) 99270-5001 • Av. Noroeste, 5088</div>
+      </div>
+    </div>
+
+    <label>Cliente:</label>
+    <input id="cliente" placeholder="Nome do cliente">
+
+    <div class="row">
+      <div>
+        <label>Aparelho:</label>
+        <input id="aparelho" value="iPhone 11 Pro">
+      </div>
+      <div>
+        <label>Data:</label>
+        <input id="data" value="">
+      </div>
+    </div>
+
+    <h3>Itens</h3>
+    <table id="itensTable">
+      <thead><tr><th>Descrição</th><th>Preço (R$)</th><th>Qtd</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="row">
+      <div><input id="desc" placeholder="Descrição (ex: Tela JK)"></div>
+      <div style="max-width:140px"><input id="preco" placeholder="150"></div>
+      <div style="max-width:100px"><input id="qtd" value="1"></div>
+      <div><button id="addItem">Adicionar</button></div>
+    </div>
+
+    <label>Mão de obra (R$):</label>
+    <input id="mao" value="100">
+
+    <label>Forma de pagamento:</label>
+    <input id="pag" placeholder="Pix / Cartão / À vista">
+
+    <label>Observação / Validade:</label>
+    <input id="obs" placeholder="Válido por 7 dias. Preços sujeitos a alteração.">
+
+    <button id="gerar">Gerar PDF</button>
+
+    <hr>
+    <h3>Pré-visualização</h3>
+    <div id="preview">
+      <div id="previewTop" style="display:flex;align-items:center;gap:12px">
+        <img id="logoPreview" class="logo-preview" src="logo.jpeg" alt="Logo">
+        <div>
+          <div style="font-size:20px;font-weight:700">LUISINHO CELL</div>
+          <div>Centro de Reparos • Especializado em Microsoldagem Apple</div>
+          <div style="margin-top:6px">📞 (67) 99270-5001 • Av. Noroeste, 5088</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <strong>Cliente:</strong> <span id="pCliente"></span><br>
+        <strong>Aparelho:</strong> <span id="pAparelho"></span><br>
+        <strong>Data:</strong> <span id="pData"></span>
+      </div>
+
+      <table id="previewTable" style="margin-top:12px">
+        <thead><tr><th>Descrição</th><th>Valor (R$)</th><th>Qtd</th><th>Subtotal</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <div style="margin-top:8px">
+        <strong>Mão de obra:</strong> R$ <span id="pMao"></span><br>
+        <strong>Total:</strong> R$ <span id="pTotal"></span>
+      </div>
+
+      <div style="margin-top:12px">
+        <em id="pObs"></em>
+      </div>
+    </div>
+  </div>
+
+<script>
+// Using html2canvas and jsPDF from CDN for client-side PDF generation
+// We will include these scripts via dynamic loading to keep the file self-contained in offline scenarios CDN is required
+function loadScript(src){ return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+
+let logoDataUrl = null;
+document.getElementById('addItem').addEventListener('click', ()=>{
+  const desc = document.getElementById('desc').value.trim();
+  const preco = parseFloat(document.getElementById('preco').value || 0);
+  const qtd = parseInt(document.getElementById('qtd').value || 1);
+  if(!desc){ alert('Preencha a descrição'); return; }
+  const tbody = document.querySelector('#itensTable tbody');
+  const tr = document.createElement('tr');
+  tr.dataset.desc = desc;
+  tr.dataset.preco = preco;
+  tr.dataset.qtd = qtd;
+  tr.innerHTML = `<td>${desc}</td><td>${preco.toFixed(2)}</td><td>${qtd}</td><td><button class="rem">Remover</button></td>`;
+  tbody.appendChild(tr);
+  tr.querySelector('.rem').addEventListener('click', ()=>{ tr.remove(); updatePreview(); });
+  updatePreview();
+  document.getElementById('desc').value=''; document.getElementById('preco').value=''; document.getElementById('qtd').value='1';
+});
+
+function updatePreview(){
+  document.getElementById('pCliente').textContent = document.getElementById('cliente').value;
+  document.getElementById('pAparelho').textContent = document.getElementById('aparelho').value;
+  document.getElementById('pData').textContent = document.getElementById('data').value || new Date().toLocaleDateString();
+  document.getElementById('pMao').textContent = Number(document.getElementById('mao').value || 0).toFixed(2);
+
+  const tbody = document.querySelector('#previewTable tbody');
+  tbody.innerHTML = '';
+  let total = 0;
+  document.querySelectorAll('#itensTable tbody tr').forEach(tr=>{
+    const desc = tr.dataset.desc;
+    const preco = parseFloat(tr.dataset.preco);
+    const qtd = parseInt(tr.dataset.qtd);
+    const subtotal = preco * qtd;
+    total += subtotal;
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${desc}</td><td>${preco.toFixed(2)}</td><td>${qtd}</td><td>${subtotal.toFixed(2)}</td>`;
+    tbody.appendChild(row);
+  });
+  const mao = Number(document.getElementById('mao').value || 0);
+  const totalGeral = total + mao;
+  document.getElementById('pTotal').textContent = totalGeral.toFixed(2);
+  document.getElementById('pObs').textContent = document.getElementById('obs').value;
+}
+
+document.getElementById('gerar').addEventListener('click', async ()=>{
+  // load libraries
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  updatePreview();
+  const preview = document.getElementById('preview');
+  const canvas = await html2canvas(preview, {scale:2});
+  const imgData = canvas.toDataURL('image/png');
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({ unit: 'pt', format: 'a4' });
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const imgProps = pdf.getImageProperties(imgData);
+  const pdfW = pageWidth - 40;
+  const pdfH = (imgProps.height * pdfW) / imgProps.width;
+  pdf.addImage(imgData, 'PNG', 20, 20, pdfW, pdfH);
+  pdf.save('orcamento_luisinhocell.pdf');
+});
+
+// wire inputs to preview update
+['cliente','aparelho','data','mao','obs'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', updatePreview);
+});
+updatePreview();
+</script>
+</body>
+</html>
