@@ -35,7 +35,7 @@ function scalePreview() {
   // nunca aumenta acima de 1 (100%)
   preview.style.transform = scale < 1 ? `scale(${scale})` : 'scale(1)';
 
-  wrapper.style.height = `${preview.offsetHeight * scale}px`;
+  wrapper.style.height = `${preview.offsetHeight * scale + 50}px`;
 
 }
 

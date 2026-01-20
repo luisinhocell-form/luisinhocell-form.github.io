@@ -156,7 +156,6 @@ button.finish {
     width: 100%;
     display: flex;
     justify-content: center; 
-    padding-bottom: 10px;
     align-items: flex-start;
     overflow: hidden;
 }
@@ -239,6 +238,10 @@ button.finish {
   .row{
     flex-direction:column
   } 
+
+  body {
+    padding: 16px 0px;
+  }
 }
 
 @media print {
