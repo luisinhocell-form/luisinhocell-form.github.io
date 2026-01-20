@@ -21,25 +21,25 @@ function disablePdfMode() {
   scalePreview();
 }
 
+function scalePreview() {
+  const preview = document.getElementById('preview');
+  const wrapper = document.querySelector('.preview-wrapper');
+
+  if (!preview || !wrapper) return;
+
+  const wrapperWidth = wrapper.clientWidth;
+  const previewWidth = preview.offsetWidth; // 794px fixo do A4
+
+  const scale = wrapperWidth / previewWidth;
+
+  // nunca aumenta acima de 1 (100%)
+  preview.style.transform = scale < 1 ? `scale(${scale})` : 'scale(1)';
+
+  wrapper.style.height = `${preview.offsetHeight * scale}px`;
+
+}
+
 (function () {
-
-  function scalePreview() {
-    const preview = document.getElementById('preview');
-    const wrapper = document.querySelector('.preview-wrapper');
-  
-    if (!preview || !wrapper) return;
-  
-    const wrapperWidth = wrapper.clientWidth;
-    const previewWidth = preview.offsetWidth; // 794px fixo do A4
-
-    const scale = wrapperWidth / previewWidth;
-  
-    // nunca aumenta acima de 1 (100%)
-    preview.style.transform = scale < 1 ? `scale(${scale})` : 'scale(1)';
-
-    wrapper.style.height = `${preview.offsetHeight * scale}px`;
-
-  }
 
   window.addEventListener('load', scalePreview);
   window.addEventListener('resize', scalePreview);
