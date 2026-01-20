@@ -9,7 +9,41 @@ function loadScript(src){
   });
 }
 
+function enablePdfMode() {
+  const preview = document.getElementById('preview');
+  preview.classList.add('pdf-mode');
+  preview.style.transform = 'none';
+}
+
+function disablePdfMode() {
+  const preview = document.getElementById('preview');
+  preview.classList.remove('pdf-mode');
+  scalePreview();
+}
+
 (function () {
+
+  function scalePreview() {
+    const preview = document.getElementById('preview');
+    const wrapper = document.querySelector('.preview-wrapper');
+  
+    if (!preview || !wrapper) return;
+  
+    const wrapperWidth = wrapper.clientWidth;
+    const previewWidth = preview.offsetWidth; // 794px fixo do A4
+
+    const scale = wrapperWidth / previewWidth;
+  
+    // nunca aumenta acima de 1 (100%)
+    preview.style.transform = scale < 1 ? `scale(${scale})` : 'scale(1)';
+
+    wrapper.style.height = `${preview.offsetHeight * scale}px`;
+
+  }
+
+  window.addEventListener('load', scalePreview);
+  window.addEventListener('resize', scalePreview);
+
   // adiciona item
   document.getElementById('addItem').addEventListener('click', () => {
     const descEl = document.getElementById('desc');
@@ -130,6 +164,7 @@ function loadScript(src){
       // atualiza preview e garante que o logo não tainta o canvas
       updatePreview();
       await inlineLogoOrHide();
+      enablePdfMode();
 
       const preview = document.getElementById('preview');
 
@@ -145,6 +180,8 @@ function loadScript(src){
       const pdfH = (imgProps.height * pdfW) / imgProps.width;
       pdf.addImage(imgData, 'PNG', 20, 20, pdfW, pdfH);
       pdf.save('orcamento_luisinhocell.pdf');
+
+      disablePdfMode();
 
       // se ocultamos o logo, opcionalmente restaurar a visualização (descomente caso queira)
       // const logo = document.getElementById('logoPreview');

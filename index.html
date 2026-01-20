@@ -13,7 +13,7 @@
     <div class="card">
         <h1 class="title">Gerador de Orçamento - LuisinhoCell</h1>
 
-        <h2 class="section">Dados Básicossx</h2>
+        <h2 class="section">Dados Básicos</h2>
 
         <label>Nome do Cliente:</label>
         <input spellcheck="false" id="cliente" placeholder="Nome do cliente">
@@ -41,28 +41,34 @@
                 <tbody></tbody>
             </table>
 
-        <div class="row">
-            <div><input spellcheck="false" id="desc" placeholder="Descrição (ex: Tela JK)"></div>
-            <div style="max-width:140px"><input spellcheck="false" id="preco" placeholder="150"></div>
-            <div style="max-width:100px"><input spellcheck="false" id="qtd" value="1"></div>
+        <div class="items">
+            <input spellcheck="false" id="desc" placeholder="Descrição (ex: Tela JK)">
+            <input spellcheck="false" id="preco" placeholder="150">
+            <input spellcheck="false" id="qtd" value="1">
         </div>
+
         <div><button id="addItem" class="finish">Adicionar</button></div>
 
-        <label>Mão de obra (R$):</label>
-        <input spellcheck="false" id="mao" value="100">
-
-        <label>Forma de pagamento:</label>
-        <input spellcheck="false" id="pag" placeholder="Pix / Cartão / À vista">
+        <div class="row">
+            <div>
+                <label>Mão de obra (R$):</label>
+                <input spellcheck="false" id="mao" placeholder="Valor do serviço cobrado">
+            </div>
+            <div>
+                <label>Forma de pagamento:</label>
+                <input spellcheck="false" id="pag" placeholder="Pix / Cartão / À vista">
+            </div>
+        </div>
 
         <label>Observação / Validade:</label>
-        <input spellcheck="false" id="obs" placeholder="Válido por 7 dias. Preços sujeitos a alteração.">
+                <input spellcheck="false" id="obs" placeholder="Válido por 7 dias. Preços sujeitos a alteração.">
 
         <button id="gerar" class="finish">Gerar PDF</button>
 
-        <hr>
+        <hr style="margin: 20px 0">
 
         <!-- --------------------------------- PREVIEW ------------------------------------------ -->
-        <h2 class="section">Pré-visualização</h2>
+        
         <div class="preview-wrapper">
             <div id="preview">
                 <div id="previewTop" class="header">
