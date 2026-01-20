@@ -13,7 +13,7 @@
     <div class="card">
         <h1 class="title">Gerador de Orçamento - LuisinhoCell</h1>
 
-        <h2 class="section">Dados Básicos</h2>
+        <h2 class="section">Dados Básicoss</h2>
 
         <label>Nome do Cliente:</label>
         <input spellcheck="false" id="cliente" placeholder="Nome do cliente">
@@ -63,53 +63,55 @@
 
         <!-- --------------------------------- PREVIEW ------------------------------------------ -->
         <h2 class="section">Pré-visualização</h2>
-        <div id="preview">
-            <div id="previewTop" class="header">
-                    <img id="logoPreview" class="logo-preview" src="logo.jpeg" alt="Logo">
-                    <div class="preview-title">ORÇAMENTO DE SERVIÇO</div>
+        <div class="preview-wrapper">
+            <div id="preview">
+                <div id="previewTop" class="header">
+                        <img id="logoPreview" class="logo-preview" src="logo.jpeg" alt="Logo">
+                        <div class="preview-title">ORÇAMENTO DE SERVIÇO</div>
+                </div>
+
+                <div style="margin-top:12px">
+                    <div style="margin-top:5px"><strong>Técnico:</strong> <span>Luis Henrique Alves Rodrigues</span><br></div>
+                    <div style="margin-top:5px"><strong>Empresa:</strong> <span>LuisinhoCell</span><br></div>
+                    <div style="margin-top:5px"><strong>Endereço:</strong> <span>Av. Noroeste, 5088 - Camelódromo, Box 134 - Campo Grande/MS</span><br></div>
+                    <div style="margin-top:5px"><strong>Telefone:</strong> <span>(67) 99270-5001</span><br></div>
+                    <div style="margin-top:5px"><strong>Data:</strong> <span id="pData"></span><br></div>
+                    <div style="margin-top:5px"><strong>Cliente:</strong> <span id="pCliente"></span><br></div>
+                    <div style="margin-top:5px"><strong>Aparelho:</strong> <span id="pAparelho"></span><br></div>
+                </div>
+
+                <table id="previewTable" style="margin-top:50px">
+                <thead>
+                    <tr>
+                    <th>Descrição</th>
+                    <th>Valor (R$)</th>
+                    <th>Qtd</th>
+                    <th>Subtotal (R$)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                </table>
+
+
+                <div style="margin-top:100px">
+                        <div style="margin-top:5px"><strong>Mão de obra:</strong> R$ <span id="pMao"></span><br></div>
+                        <div style="margin-top:5px"><strong>Total:</strong> R$ <span id="pTotal"></span></div>
+                </div>
+
+                <div style="margin-top:16px">
+                    <strong>Observação:</strong> <em id="pObs"></em>
+                </div>
+
+                <div style="margin-top:16px">
+                        <strong>Forma de Pagamento:</strong> <span id="pPagamento"></span><br>
+                        <!-- <strong>Prazo de Entrega:</strong> <span id="pPrazo"></span> -->
+                </div>
+
+                <div style="margin-top:32px">
+                        <strong>Assinatura Cliente:</strong> <span>________________________________________</span><br>
+                </div>
+
             </div>
-
-            <div style="margin-top:12px">
-                <div style="margin-top:5px"><strong>Técnico:</strong> <span>Luis Henrique Alves Rodrigues</span><br></div>
-                <div style="margin-top:5px"><strong>Empresa:</strong> <span>LuisinhoCell</span><br></div>
-                <div style="margin-top:5px"><strong>Endereço:</strong> <span>Av. Noroeste, 5088 - Camelódromo, Box 134 - Campo Grande/MS</span><br></div>
-                <div style="margin-top:5px"><strong>Telefone:</strong> <span>(67) 99270-5001</span><br></div>
-                <div style="margin-top:5px"><strong>Data:</strong> <span id="pData"></span><br></div>
-                <div style="margin-top:5px"><strong>Cliente:</strong> <span id="pCliente"></span><br></div>
-                <div style="margin-top:5px"><strong>Aparelho:</strong> <span id="pAparelho"></span><br></div>
-            </div>
-
-            <table id="previewTable" style="margin-top:50px">
-            <thead>
-                <tr>
-                <th>Descrição</th>
-                <th>Valor (R$)</th>
-                <th>Qtd</th>
-                <th>Subtotal (R$)</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            </table>
-
-
-            <div style="margin-top:100px">
-                    <div style="margin-top:5px"><strong>Mão de obra:</strong> R$ <span id="pMao"></span><br></div>
-                    <div style="margin-top:5px"><strong>Total:</strong> R$ <span id="pTotal"></span></div>
-            </div>
-
-            <div style="margin-top:16px">
-                <strong>Observação:</strong> <em id="pObs"></em>
-            </div>
-
-            <div style="margin-top:16px">
-                    <strong>Forma de Pagamento:</strong> <span id="pPagamento"></span><br>
-                    <!-- <strong>Prazo de Entrega:</strong> <span id="pPrazo"></span> -->
-            </div>
-
-            <div style="margin-top:32px">
-                    <strong>Assinatura Cliente:</strong> <span>________________________________________</span><br>
-            </div>
-
         </div>
     </div>
 

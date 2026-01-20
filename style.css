@@ -159,13 +159,22 @@ button.finish {
     box-shadow: 0 0 5px #0ef, inset 0 0 5px #0ef;
 }
 
+.preview-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center; /* Centraliza se houver espaço */
+    padding-bottom: 20px;
+}
+
 /* Preview com tamanho fixo A4 (em px, assumindo 96dpi) */
 #preview {
   box-sizing: border-box;
-  width: 90%;          /* A4 width em px @96dpi ≈ 8.27in * 96 = 793.92 */
+  width: 794px;        /* A4 width fixo */
+  min-width: 794px;    /* Garante largura mínima */
   background: white;
   padding: 20px;
-  margin: 0 auto;
+  margin: 0;           /* Margem zero pois o wrapper controla o layout */
   color: #111;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 13px;       /* use px para tornar consistente no canvas */
